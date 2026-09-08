@@ -1,0 +1,34 @@
+[
+  {
+    "origin": [
+      "http://localhost:5173",
+      "http://127.0.0.1:5173",
+      "http://localhost:5174",
+      "https://VOTRE-DOMAINE-PRODUCTION.com"
+    ],
+    "method": ["GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS"],
+    "responseHeader": [
+      "Content-Type",
+      "Content-Length",
+      "Content-Range",
+      "Content-Disposition",
+      "Authorization",
+      "Range",
+      "X-Goog-Resumable",
+      "X-Goog-Upload-Protocol",
+      "X-Goog-Upload-Command",
+      "X-Goog-Upload-Offset",
+      "X-Goog-Upload-Content-Length",
+      "X-Goog-Upload-Content-Type",
+      "X-Goog-Upload-Header-Content-Type",
+      "X-Goog-Upload-Status",
+      "X-Goog-Upload-URL",
+      "X-Goog-Upload-Chunk-Granularity",
+      "X-Goog-Upload-Size-Received",
+      "X-Goog-Hash",
+      "X-Firebase-Storage-Version",
+      "X-Firebase-GMPID"
+    ],
+    "maxAgeSeconds": 3600
+  }
+]

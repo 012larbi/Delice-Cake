@@ -1,0 +1,144 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-blush: #f8c8d2;
+  --color-lightpink: #fce3e8;
+  --color-burgundy: #521522;
+  --color-burgundy-dark: #3d101a;
+  --color-cream: #fff8f5;
+  --color-accent: #f05a78;
+  --color-accent-dark: #d84865;
+
+  --font-display: 'Playfair Display', ui-serif, Georgia, serif;
+  --font-body: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  --font-script: 'Parisienne', 'Playfair Display', cursive;
+
+  --shadow-soft: 0 20px 45px -20px rgba(82, 21, 34, 0.25);
+  --shadow-card: 0 30px 60px -25px rgba(82, 21, 34, 0.35);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-cream);
+    color: var(--color-burgundy);
+    font-family: var(--font-body);
+    font-weight: 400;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  /* Images robustes : jamais de débordement horizontal, pas d'espace inline */
+  img,
+  svg,
+  video,
+  canvas {
+    max-width: 100%;
+  }
+
+  img {
+    display: block;
+    height: auto;
+  }
+
+  /* Rétablit height:100% quand une utilitaire h-full est demandée sur l'img */
+  img.h-full {
+    height: 100%;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@layer utilities {
+  .font-script {
+    font-family: var(--font-script);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .section-x {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .section-x {
+      padding-left: 4rem;
+      padding-right: 4rem;
+    }
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .glass-nav {
+    background: rgba(255, 248, 245, 0.72);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+  }
+  .glass-nav-scrolled {
+    background: rgba(255, 248, 245, 0.92);
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-lightpink);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-blush);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

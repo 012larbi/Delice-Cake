@@ -1,0 +1,43 @@
+rules_version = '2';
+
+// Règles de sécurité Firestore — Délice Cake
+// Déploiement : firebase deploy --only firestore:rules
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAdmin() {
+      // Tout utilisateur authentifié = admin.
+      // Pour restreindre : request.auth.token.admin == true (custom claim).
+      return request.auth != null;
+    }
+
+    // Contenu public : lecture libre, écriture réservée à l'admin.
+    match /products/{id}      { allow read: if true; allow write: if isAdmin(); }
+    match /newProducts/{id}   { allow read: if true; allow write: if isAdmin(); }
+    match /testimonials/{id}  { allow read: if true; allow write: if isAdmin(); }
+    match /categories/{id}    { allow read: if true; allow write: if isAdmin(); }
+    match /settings/{id}      { allow read: if true; allow write: if isAdmin(); }
+
+    // Avis clients : un visiteur peut en SOUMETTRE un (nom + e-mail + texte
+    // obligatoires, statut « pending »). Lecture/validation réservées à
+    // l'admin — les e-mails ne sont jamais exposés publiquement.
+    match /reviews/{id} {
+      allow create: if isValidReview();
+      allow read, update, delete: if isAdmin();
+    }
+
+    function isValidReview() {
+      let d = request.resource.data;
+      return d.keys().hasOnly(
+               ['name', 'email', 'text', 'rating', 'city', 'status',
+                'createdAt', 'updatedAt'])
+             && d.status == 'pending'
+             && d.name is string && d.name.size() >= 2 && d.name.size() <= 80
+             && d.email is string && d.email.size() >= 5 && d.email.size() <= 120
+             && d.email.matches('^[^@]+@[^@]+[.][^@]+$')
+             && d.text is string && d.text.size() >= 5 && d.text.size() <= 1000
+             && d.rating is number && d.rating >= 1 && d.rating <= 5
+             && d.city is string && d.city.size() <= 80;
+    }
+  }
+}

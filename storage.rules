@@ -1,0 +1,33 @@
+rules_version = '2';
+
+// Règles Firebase Storage — Délice Cake
+// Déploiement : firebase deploy --only storage
+//
+// Tout ce qui n'est pas explicitement autorisé ci-dessous est refusé
+// par défaut (inutile d'ajouter un catch-all `if false`).
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Admin = tout utilisateur authentifié (Firebase Auth).
+    // Pour restreindre : request.auth.token.admin == true (custom claim).
+    function isAdmin() {
+      return request.auth != null;
+    }
+
+    function isImage() {
+      return request.resource.contentType.matches('image/.*');
+    }
+
+    // Images du site, rangées sous images/<usage>/<uuid>.<ext>
+    //  - lecture publique : les photos sont affichées sur le site vitrine
+    //  - création / remplacement : admin authentifié, image/*, < 5 Mo
+    //  - suppression : admin authentifié
+    match /images/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin()
+                   && isImage()
+                   && request.resource.size < 5 * 1024 * 1024;
+      allow delete: if isAdmin();
+    }
+  }
+}
