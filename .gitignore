@@ -14,11 +14,9 @@ dist-ssr
 
 # Env
 .env
-.env.example
-firestore.rules
-storage.rules
 .env.*
-!.env.example
+.env.example
+
 
 # Editor directories and files
 .vscode/*
