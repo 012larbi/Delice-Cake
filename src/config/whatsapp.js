@@ -16,6 +16,23 @@ export function configureWhatsApp(number) {
 
 export const getWhatsAppNumber = () => activeNumber;
 
+/**
+ * Message générique par défaut (bouton flottant, CTA « Commander », etc.).
+ * Modifiable depuis Admin → Paramètres.
+ */
+export const DEFAULT_CONTACT_MESSAGE =
+  'Bonjour Délice Cake 👋 Je souhaite des informations pour commander un gâteau.';
+
+let activeContactMessage = DEFAULT_CONTACT_MESSAGE;
+
+/** Change le message générique. Une valeur vide restaure le message par défaut. */
+export function configureWhatsAppMessage(message) {
+  const clean = String(message ?? '').trim();
+  activeContactMessage = clean || DEFAULT_CONTACT_MESSAGE;
+}
+
+export const getWhatsAppContactMessage = () => activeContactMessage;
+
 const CURRENCY = 'MAD';
 
 /**
@@ -81,9 +98,9 @@ export function openWhatsAppOrder(order) {
 
 /**
  * Message générique (bouton flottant, CTA "Commander").
+ * Sans argument, utilise le message configuré dans Admin → Paramètres
+ * (ou le message par défaut si rien n'a été personnalisé).
  */
-export function openWhatsAppContact(
-  message = 'Bonjour Délice Cake 👋 Je souhaite des informations pour commander un gâteau.',
-) {
+export function openWhatsAppContact(message = activeContactMessage) {
   openWhatsApp(message);
 }

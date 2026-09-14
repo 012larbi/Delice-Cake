@@ -5,7 +5,7 @@ import {
   getNewProducts,
   getCategories,
 } from '../services/content';
-import { configureWhatsApp } from '../config/whatsapp';
+import { configureWhatsApp, configureWhatsAppMessage } from '../config/whatsapp';
 import {
   defaultSettings,
   products as seedProducts,
@@ -89,6 +89,7 @@ export function SiteSettingsProvider({ children }) {
     const unsub = watchSettings((settings) => {
       if (!alive) return;
       configureWhatsApp(settings.whatsappNumber);
+      configureWhatsAppMessage(settings.whatsappMessage);
       applyOgImage(settings.ogImage);
       applyFavicon(settings.faviconUrl);
       setState((s) => ({ ...s, settings }));

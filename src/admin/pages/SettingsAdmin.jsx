@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Save, Database, MapPin } from 'lucide-react';
+import { Save, Database, MapPin, MessageCircle, RotateCcw } from 'lucide-react';
 import { getSettings, saveSettings, importSeedData } from '../../services/content';
 import { isFirebaseConfigured } from '../../services/firestore';
-import { configureWhatsApp } from '../../config/whatsapp';
+import {
+  configureWhatsApp,
+  configureWhatsAppMessage,
+  DEFAULT_CONTACT_MESSAGE,
+} from '../../config/whatsapp';
 import { extractMapSrc } from '../../config/map';
 import { useToast } from '../ui/toast';
 import {
@@ -48,6 +52,7 @@ export default function SettingsAdmin() {
       await saveSettings(clean);
       setForm(clean);
       configureWhatsApp(clean.whatsappNumber);
+      configureWhatsAppMessage(clean.whatsappMessage);
       toast('Paramètres enregistrés.');
     } catch (err) {
       toast(err.message || 'Enregistrement impossible.', 'error');
@@ -98,6 +103,39 @@ export default function SettingsAdmin() {
               />
             </Field>
           ))}
+        </Card>
+
+        <Card className="flex flex-col gap-4">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <MessageCircle size={18} className="text-accent" />
+              <h2 className="font-display text-lg font-bold text-burgundy">
+                Message WhatsApp
+              </h2>
+            </div>
+            <button
+              type="button"
+              onClick={() => set('whatsappMessage', '')}
+              className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-burgundy/60 hover:bg-lightpink hover:text-burgundy"
+            >
+              <RotateCcw size={13} />
+              Message par défaut
+            </button>
+          </div>
+          <Field
+            label="Message envoyé par les boutons « Commander sur WhatsApp »"
+            hint="Utilisé par le bouton flottant, le menu, l'accueil, la section contact et le CTA final. Les commandes de produits (avec quantité et prix) restent automatiques et ne sont pas affectées."
+          >
+            <Textarea
+              rows={3}
+              value={form.whatsappMessage ?? ''}
+              onChange={(e) => set('whatsappMessage', e.target.value)}
+              placeholder={DEFAULT_CONTACT_MESSAGE}
+            />
+          </Field>
+          <p className="text-xs text-burgundy/45">
+            Laisser vide = message par défaut : « {DEFAULT_CONTACT_MESSAGE} »
+          </p>
         </Card>
 
         <Card className="flex flex-col gap-5">
