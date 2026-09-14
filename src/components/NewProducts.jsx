@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import SectionHeading from './ui/SectionHeading';
 import CakeImage from './ui/CakeImage';
-import { formatPrice, openWhatsAppContact } from '../config/whatsapp';
+import { formatPrice, openWhatsAppContact, getWhatsAppGreeting } from '../config/whatsapp';
 import { useSiteData } from '../context/SiteSettingsContext';
 
 export default function NewProducts() {
@@ -62,7 +62,7 @@ export default function NewProducts() {
                     type="button"
                     onClick={() =>
                       openWhatsAppContact(
-                        `Bonjour Délice Cake 👋 Je suis intéressé(e) par la nouveauté « ${item.name} ».`,
+                        `${getWhatsAppGreeting()}\n\nJe suis intéressé(e) par la nouveauté « ${item.name} ».`,
                       )
                     }
                     whileHover={{ x: 3 }}

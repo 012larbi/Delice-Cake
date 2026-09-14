@@ -5,7 +5,7 @@ import { isFirebaseConfigured } from '../../services/firestore';
 import {
   configureWhatsApp,
   configureWhatsAppMessage,
-  DEFAULT_CONTACT_MESSAGE,
+  DEFAULT_GREETING,
 } from '../../config/whatsapp';
 import { extractMapSrc } from '../../config/map';
 import { useToast } from '../ui/toast';
@@ -110,7 +110,7 @@ export default function SettingsAdmin() {
             <div className="flex items-center gap-2">
               <MessageCircle size={18} className="text-accent" />
               <h2 className="font-display text-lg font-bold text-burgundy">
-                Message WhatsApp
+                Message d'accueil WhatsApp
               </h2>
             </div>
             <button
@@ -123,18 +123,18 @@ export default function SettingsAdmin() {
             </button>
           </div>
           <Field
-            label="Message envoyé par les boutons « Commander sur WhatsApp »"
-            hint="Utilisé par le bouton flottant, le menu, l'accueil, la section contact et le CTA final. Les commandes de produits (avec quantité et prix) restent automatiques et ne sont pas affectées."
+            label="Phrase d'accueil en tête de chaque message WhatsApp"
+            hint="Utilisée PARTOUT : bouton flottant, menu, accueil, contact, CTA final — ET quand un client choisit un gâteau et clique « Commander sur WhatsApp ». Le détail de la commande (produit, quantité, prix) est ajouté automatiquement en dessous."
           >
             <Textarea
               rows={3}
               value={form.whatsappMessage ?? ''}
               onChange={(e) => set('whatsappMessage', e.target.value)}
-              placeholder={DEFAULT_CONTACT_MESSAGE}
+              placeholder={DEFAULT_GREETING}
             />
           </Field>
           <p className="text-xs text-burgundy/45">
-            Laisser vide = message par défaut : « {DEFAULT_CONTACT_MESSAGE} »
+            Laisser vide = message par défaut : « {DEFAULT_GREETING} »
           </p>
         </Card>
 

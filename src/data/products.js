@@ -183,9 +183,9 @@ export const testimonials = [
 /** Paramètres du site (secours si Firestore non configuré). */
 export const defaultSettings = {
   whatsappNumber: '212600000000',
-  // Message générique envoyé par le bouton WhatsApp flottant et les CTA
-  // « Commander » (hors commande produit, qui reste automatique).
-  // Vide = message par défaut (voir DEFAULT_CONTACT_MESSAGE dans whatsapp.js).
+  // Phrase d'accueil en tête de TOUS les messages WhatsApp (contact
+  // générique ET commande d'un gâteau). Vide = message par défaut
+  // (voir DEFAULT_GREETING dans whatsapp.js).
   whatsappMessage: '',
   city: 'Casablanca, Maroc',
   phone: '+212 6 XX XX XX XX',

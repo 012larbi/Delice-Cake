@@ -17,21 +17,22 @@ export function configureWhatsApp(number) {
 export const getWhatsAppNumber = () => activeNumber;
 
 /**
- * Message générique par défaut (bouton flottant, CTA « Commander », etc.).
- * Modifiable depuis Admin → Paramètres.
+ * Message d'accueil affiché en tête de TOUS les messages WhatsApp du site :
+ * bouton générique (flottant, menu, accueil…) ET commande d'un gâteau
+ * (quand le client choisit un produit et clique « Commander »).
+ * Modifiable depuis Admin → Paramètres → Message WhatsApp.
  */
-export const DEFAULT_CONTACT_MESSAGE =
-  'Bonjour Délice Cake 👋 Je souhaite des informations pour commander un gâteau.';
+export const DEFAULT_GREETING = 'Bonjour Délice Cake 👋';
 
-let activeContactMessage = DEFAULT_CONTACT_MESSAGE;
+let activeGreeting = DEFAULT_GREETING;
 
-/** Change le message générique. Une valeur vide restaure le message par défaut. */
+/** Change le message d'accueil. Une valeur vide restaure celui par défaut. */
 export function configureWhatsAppMessage(message) {
   const clean = String(message ?? '').trim();
-  activeContactMessage = clean || DEFAULT_CONTACT_MESSAGE;
+  activeGreeting = clean || DEFAULT_GREETING;
 }
 
-export const getWhatsAppContactMessage = () => activeContactMessage;
+export const getWhatsAppGreeting = () => activeGreeting;
 
 const CURRENCY = 'MAD';
 
@@ -57,7 +58,7 @@ export function createWhatsAppOrderMessage({
   const total = unitPrice * quantity;
 
   const lines = [
-    'Bonjour Délice Cake 👋',
+    activeGreeting,
     '',
     'Je souhaite commander :',
     '',
@@ -98,9 +99,12 @@ export function openWhatsAppOrder(order) {
 
 /**
  * Message générique (bouton flottant, CTA "Commander").
- * Sans argument, utilise le message configuré dans Admin → Paramètres
- * (ou le message par défaut si rien n'a été personnalisé).
+ * Sans argument, construit à partir du message d'accueil configuré dans
+ * Admin → Paramètres (ou le message par défaut si rien n'a été personnalisé).
  */
-export function openWhatsAppContact(message = activeContactMessage) {
-  openWhatsApp(message);
+export function openWhatsAppContact(message) {
+  const finalMessage =
+    message ??
+    `${activeGreeting}\n\nJe souhaite des informations pour commander un gâteau.`;
+  openWhatsApp(finalMessage);
 }
